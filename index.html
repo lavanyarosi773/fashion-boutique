@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saindhavi Fashion</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A84C;--gl:#F5D98B;--gd:#8B6914;--blk:#1A1209;--cream:#FDF8EE;--red:#E53E3E;--grn:#2D7D46;--wa:#25D366;--r:12px;--blu:#2563EB;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--blk);}
+
+/* ==================== AUTH PAGES ==================== */
+.auth-wrap{display:none;position:fixed;inset:0;z-index:1000;background:linear-gradient(135deg,#1A1209 0%,#3D2A0A 50%,#1A1209 100%);align-items:center;justify-content:center;}
+.auth-wrap.show{display:flex;}
+.auth-box{background:#fff;border-radius:20px;width:92%;max-width:440px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.auth-header{background:linear-gradient(135deg,var(--blk),#3D2A0A);padding:28px;text-align:center;}
+.auth-logo{font-family:'Playfair Display',serif;font-size:26px;color:var(--gl);margin-bottom:4px;}
+.auth-logo small{display:block;font-size:9px;letter-spacing:3px;color:var(--gold);font-family:'Poppins',sans-serif;}
+.auth-subtitle{font-size:12px;color:rgba(245,217,139,.6);margin-top:6px;}
+.auth-tabs{display:flex;border-bottom:2px solid #f0f0f0;}
+.auth-tab{flex:1;padding:14px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;color:#888;transition:all .2s;border:none;background:#fff;}
+.auth-tab.on{color:var(--gold-dark, var(--gd));border-bottom:3px solid var(--gold, var(--gold));margin-bottom:-2px;}
+.auth-body{padding:28px;}
+.auth-body.hide{display:none;}
+.fg{margin-bottom:16px;}
+.fg label{font-size:11px;font-weight:700;color:var(--blk);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px;}
+.fg input,.fg select{width:100%;padding:11px 14px;border:1.5px solid #e0e0e0;border-radius:9px;font-family:'Poppins',sans-serif;font-size:13px;outline:none;transition:border .2s;}
+.fg input:focus,.fg select:focus{border-color:var(--gold);}
+.fg .hint{font-size:10px;color:#aaa;margin-top:3px;}
+.auth-btn{width:100%;padding:13px;border-radius:10px;border:none;font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px;}
+.auth-btn.gold{background:var(--gold);color:var(--blk);}
+.auth-btn.gold:hover{background:var(--gl);transform:translateY(-1px);}
+.auth-btn.dark{background:var(--blk);color:var(--gl);}
+.auth-btn.dark:hover{background:#333;}
+.auth-divider{text-align:center;font-size:11px;color:#bbb;margin:14px 0;position:relative;}
+.auth-divider::before,.auth-divider::after{content:'';position:absolute;top:50%;width:43%;height:1px;background:#eee;}
+.auth-divider::before{left:0;}.auth-divider::after{right:0;}
+.auth-err{background:#FEE;color:var(--red);font-size:11px;padding:9px 12px;border-radius:7px;margin-bottom:12px;border-left:3px solid var(--red);}
+.auth-succ{background:#F0FDF4;color:var(--grn);font-size:11px;padding:9px 12px;border-radius:7px;margin-bottom:12px;border-left:3px solid var(--grn);}
+.user-badge{display:flex;align-items:center;gap:5px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--gl);cursor:pointer;}
+.user-badge .uname{max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ==================== MAIN SHOP ==================== */
+.topbar{background:var(--blk);color:var(--gl);padding:8px;text-align:center;font-size:12px;}
+header{background:linear-gradient(135deg,#1A1209,#2D1F08,#1A1209);padding:0 28px;position:sticky;top:0;z-index:200;box-shadow:0 3px 18px rgba(0,0,0,.6);}
+.hdr{display:flex;align-items:center;height:66px;max-width:1300px;margin:0 auto;gap:14px;}
+.logo{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--gl);white-space:nowrap;flex-shrink:0;cursor:pointer;}
+.logo small{display:block;font-size:9px;letter-spacing:3px;color:var(--gold);margin-top:-3px;font-family:'Poppins',sans-serif;}
+.srch{display:flex;flex:1;max-width:440px;background:#fff;border-radius:8px;overflow:hidden;border:2px solid var(--gold);}
+.srch input{flex:1;padding:9px 12px;border:none;font-family:'Poppins',sans-serif;font-size:12px;outline:none;}
+.srch button{background:var(--gold);border:none;padding:9px 14px;cursor:pointer;font-size:14px;}
+.hacts{display:flex;gap:12px;align-items:center;margin-left:auto;}
+.hbtn{display:flex;flex-direction:column;align-items:center;color:var(--gl);font-size:9px;cursor:pointer;position:relative;}
+.hbtn .ico{font-size:20px;}
+.hbtn:hover{color:var(--gold);}
+.bdg{position:absolute;top:-5px;right:-8px;background:var(--red);color:#fff;font-size:9px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;}
+nav{background:var(--gold);}
+.nav{display:flex;max-width:1300px;margin:0 auto;overflow-x:auto;}
+.nav::-webkit-scrollbar{display:none;}
+.ni{padding:11px 14px;font-size:11px;font-weight:700;color:var(--blk);cursor:pointer;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px;transition:background .2s;}
+.ni:hover,.ni.act{background:var(--gd);color:#fff;}
+.ni.sale{background:#c0392b;color:#fff;}
+.hero{background:linear-gradient(135deg,rgba(26,18,9,.93),rgba(44,30,6,.82)),url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1400&h=480&fit=crop&q=80') center/cover;padding:48px 28px;display:flex;align-items:center;min-height:340px;}
+.hero-in{max-width:1300px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;}
+.hero h1{font-family:'Playfair Display',serif;font-size:42px;color:var(--gl);line-height:1.1;margin-bottom:10px;}
+.hero h1 em{color:var(--gold);}
+.hero p{color:rgba(245,217,139,.75);font-size:13px;line-height:1.7;margin-bottom:22px;}
+.hbtns{display:flex;gap:9px;flex-wrap:wrap;}
+.bgold{background:var(--gold);color:var(--blk);padding:11px 24px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;border:none;font-family:'Poppins',sans-serif;transition:all .2s;}
+.bgold:hover{background:var(--gl);transform:translateY(-2px);}
+.boutl{background:transparent;color:var(--gl);padding:11px 24px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;border:2px solid var(--gold);font-family:'Poppins',sans-serif;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.stat{background:rgba(255,255,255,.07);border:1px solid rgba(201,168,76,.22);border-radius:9px;padding:16px 8px;text-align:center;}
+.sn{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:700;}
+.sl{color:rgba(245,217,139,.6);font-size:9px;margin-top:1px;}
+.offers{background:var(--blk);display:flex;justify-content:center;flex-wrap:wrap;}
+.oi{display:flex;align-items:center;gap:4px;color:var(--gl);font-size:11px;padding:8px 15px;border-right:1px solid rgba(201,168,76,.1);}
+.sec{padding:36px 28px;max-width:1300px;margin:0 auto;}
+.shead{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.stitle{font-family:'Playfair Display',serif;font-size:24px;position:relative;padding-bottom:7px;}
+.stitle::after{content:'';position:absolute;bottom:0;left:0;width:40px;height:3px;background:var(--gold);border-radius:2px;}
+.catgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:11px;}
+.catcard{border-radius:11px;overflow:hidden;cursor:pointer;transition:all .3s;box-shadow:0 2px 7px rgba(0,0,0,.08);position:relative;}
+.catcard:hover{transform:translateY(-5px);box-shadow:0 10px 22px rgba(0,0,0,.15);}
+.cimg{height:125px;overflow:hidden;position:relative;}
+.cimg img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.catcard:hover .cimg img{transform:scale(1.1);}
+.cimg::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(transparent,rgba(0,0,0,.72));}
+.cinfo{position:absolute;bottom:0;left:0;right:0;padding:8px 10px;z-index:1;}
+.cname{font-size:12px;font-weight:700;color:#fff;}
+.ccount{font-size:9px;color:rgba(255,255,255,.7);}
+.banners{display:grid;grid-template-columns:1fr 1fr;gap:15px;padding:0 28px 26px;max-width:1300px;margin:0 auto;}
+.bnr{border-radius:13px;overflow:hidden;position:relative;height:178px;cursor:pointer;}
+.bnr img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.bnr:hover img{transform:scale(1.04);}
+.bov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:26px;}
+.bnr.girls .bov{background:linear-gradient(90deg,rgba(139,26,74,.88) 0%,transparent 70%);}
+.bnr.boys .bov{background:linear-gradient(90deg,rgba(4,44,83,.88) 0%,transparent 70%);}
+.bnr h3{font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin-bottom:4px;}
+.bnr p{color:rgba(255,255,255,.8);font-size:11px;margin-bottom:12px;}
+.bnrbtn{background:#fff;color:var(--blk);padding:7px 16px;border-radius:7px;font-weight:700;font-size:11px;cursor:pointer;border:none;font-family:'Poppins',sans-serif;}
+.fbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
+.ftag{padding:5px 13px;border:1.5px solid #ddd;border-radius:20px;font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif;background:#fff;transition:all .2s;}
+.ftag:hover,.ftag.on{border-color:var(--gold);background:var(--gold);color:var(--blk);font-weight:600;}
+.pgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+.pc{background:#fff;border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .3s;box-shadow:0 2px 7px rgba(0,0,0,.06);}
+.pc:hover{transform:translateY(-5px);box-shadow:0 12px 26px rgba(0,0,0,.12);}
+.pimg{height:245px;overflow:hidden;position:relative;background:#f5f0e8;}
+.pimg img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.pc:hover .pimg img{transform:scale(1.06);}
+.pbdg{position:absolute;top:9px;left:9px;font-size:9px;font-weight:700;padding:3px 7px;border-radius:4px;z-index:2;}
+.pbdg.r{background:var(--red);color:#fff;}
+.pbdg.g{background:var(--grn);color:#fff;}
+.pbdg.o{background:var(--gd);color:#fff;}
+.wbtn{position:absolute;top:9px;right:9px;width:28px;height:28px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;box-shadow:0 2px 7px rgba(0,0,0,.14);z-index:2;border:none;}
+.pbody{padding:11px;}
+.pbrnd{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.4px;}
+.pnm{font-size:11px;font-weight:600;margin:3px 0 5px;line-height:1.4;}
+.prat{display:flex;align-items:center;gap:3px;margin-bottom:6px;}
+.sts{color:var(--gold);font-size:10px;}
+.rc{font-size:9px;color:#888;}
+.prow{display:flex;align-items:center;gap:5px;margin-bottom:8px;flex-wrap:wrap;}
+.pnow{font-size:16px;font-weight:700;}
+.pold{font-size:10px;color:#bbb;text-decoration:line-through;}
+.psav{font-size:10px;color:var(--grn);font-weight:600;}
+.pbtns{display:flex;gap:5px;}
+.bcart{flex:1;background:var(--gold);color:var(--blk);border:none;padding:8px 4px;border-radius:7px;font-weight:700;font-size:10px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s;}
+.bcart:hover{background:var(--gd);color:#fff;}
+.bcart.ok{background:var(--grn);color:#fff;}
+.bbuy{flex:1;background:var(--blk);color:var(--gl);border:none;padding:8px 4px;border-radius:7px;font-weight:700;font-size:10px;cursor:pointer;font-family:'Poppins',sans-serif;}
+.bbuy:hover{background:#333;}
+.deals{background:var(--blk);padding:36px 28px;}
+.din{max-width:1300px;margin:0 auto;}
+.dhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.dtitle{font-family:'Playfair Display',serif;font-size:22px;color:var(--gl);}
+.tbox{display:flex;gap:6px;align-items:center;}
+.tu{background:var(--gold);color:var(--blk);width:44px;height:44px;border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.tn{font-size:17px;font-weight:700;line-height:1;}
+.tl{font-size:6px;text-transform:uppercase;font-weight:700;}
+.tsep{color:var(--gold);font-size:19px;font-weight:700;margin-top:-4px;}
+.dgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.dc{background:#2D1F08;border:1px solid var(--gd);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .3s;}
+.dc:hover{border-color:var(--gold);transform:translateY(-3px);}
+.di{height:170px;overflow:hidden;}
+.di img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.dc:hover .di img{transform:scale(1.06);}
+.db{padding:11px;}
+.dn{color:var(--gl);font-size:11px;font-weight:600;margin-bottom:5px;}
+.dp{color:var(--gold);font-size:15px;font-weight:700;}
+.do{color:rgba(255,255,255,.3);font-size:10px;text-decoration:line-through;margin-left:5px;}
+.prg{background:rgba(255,255,255,.1);border-radius:3px;height:4px;margin:7px 0 3px;}
+.prf{background:var(--gold);border-radius:3px;height:100%;}
+.revs{background:#FFF9EC;padding:36px 28px;}
+.rin{max-width:1300px;margin:0 auto;}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;}
+.rcard{background:#fff;border-radius:var(--r);padding:18px;border-left:4px solid var(--gold);box-shadow:0 2px 7px rgba(0,0,0,.05);}
+.rstr{color:var(--gold);font-size:12px;margin-bottom:6px;}
+.rtxt{font-size:11px;color:#666;line-height:1.7;margin-bottom:10px;font-style:italic;}
+.rvr{display:flex;align-items:center;gap:8px;}
+.rav{width:34px;height:34px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--blk);flex-shrink:0;}
+footer{background:var(--blk);color:var(--gl);padding:36px 28px 20px;}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px;max-width:1300px;margin:0 auto 24px;}
+.flogo{font-family:'Playfair Display',serif;font-size:19px;color:var(--gold);margin-bottom:9px;}
+.fabout{font-size:11px;color:rgba(245,217,139,.45);line-height:1.7;margin-bottom:13px;}
+.srow{display:flex;gap:7px;}
+.sbtn{width:30px;height:30px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;}
+.sbtn:hover{background:var(--gold);color:var(--blk);}
+.fhd{font-size:11px;font-weight:700;color:var(--gold);margin-bottom:11px;text-transform:uppercase;letter-spacing:.8px;}
+.fls{list-style:none;}
+.fls li{margin-bottom:6px;}
+.fls a{font-size:11px;color:rgba(245,217,139,.45);cursor:pointer;}
+.fls a:hover{color:var(--gold);}
+.fbot{border-top:1px solid rgba(201,168,76,.1);padding-top:16px;text-align:center;max-width:1300px;margin:0 auto;}
+.payicons{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:8px;}
+.pico{background:#fff;color:var(--blk);font-size:9px;font-weight:700;padding:3px 9px;border-radius:3px;}
+
+/* ==================== MODALS ==================== */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;align-items:center;justify-content:center;}
+.ov.open{display:flex;}
+.modal{background:#fff;border-radius:15px;padding:24px;width:92%;max-width:500px;max-height:90vh;overflow-y:auto;}
+.mhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.mtitle{font-family:'Playfair Display',serif;font-size:19px;}
+.mclose{font-size:18px;cursor:pointer;background:none;border:none;color:#888;}
+.ci{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #f0f0f0;align-items:center;}
+.cth{width:58px;height:58px;border-radius:7px;overflow:hidden;flex-shrink:0;}
+.cth img{width:100%;height:100%;object-fit:cover;}
+.cin{font-size:12px;font-weight:600;margin-bottom:1px;}
+.cip{font-size:13px;font-weight:700;color:var(--gd);}
+.ctot{padding:12px 0;border-top:2px solid var(--gold);margin-top:9px;}
+.crow{display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;}
+.chkbtn{width:100%;background:var(--gold);color:var(--blk);border:none;padding:12px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:9px;font-family:'Poppins',sans-serif;}
+.wabtn2{width:100%;background:var(--wa);color:#fff;border:none;padding:11px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:9px;}
+.empty{text-align:center;padding:30px;color:#888;font-size:12px;}
+.div2{text-align:center;font-size:10px;color:#bbb;margin:9px 0;position:relative;}
+.div2::before,.div2::after{content:'';position:absolute;top:50%;width:44%;height:1px;background:#eee;}
+.div2::before{left:0;}.div2::after{right:0;}
+.oprev{display:flex;gap:11px;background:#FDF8EE;border-radius:9px;padding:12px;margin-bottom:15px;border:1px solid rgba(201,168,76,.3);}
+.oth{width:72px;height:72px;border-radius:7px;overflow:hidden;flex-shrink:0;}
+.oth img{width:100%;height:100%;object-fit:cover;}
+.opnm{font-size:13px;font-weight:700;margin-bottom:2px;}
+.oppr{font-size:16px;font-weight:700;color:var(--gd);}
+.fgrp{margin-bottom:10px;}
+.fgrp label{font-size:10px;font-weight:700;display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px;}
+.fgrp input,.fgrp select,.fgrp textarea{width:100%;padding:9px 11px;border:1.5px solid #ddd;border-radius:7px;font-family:'Poppins',sans-serif;font-size:12px;outline:none;transition:border .2s;}
+.fgrp input:focus,.fgrp select:focus,.fgrp textarea:focus{border-color:var(--gold);}
+.fgrp textarea{height:58px;resize:none;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px;}
+.szbx{display:flex;gap:6px;flex-wrap:wrap;}
+.szb{padding:4px 11px;border:1.5px solid #ddd;border-radius:5px;font-size:10px;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s;}
+.szb.on,.szb:hover{border-color:var(--gold);background:var(--gold);color:var(--blk);font-weight:700;}
+.qrow{display:flex;align-items:center;gap:9px;}
+.qb{width:28px;height:28px;border:1.5px solid var(--gold);border-radius:5px;background:none;font-size:15px;cursor:pointer;font-weight:700;color:var(--gd);display:flex;align-items:center;justify-content:center;}
+.qn{font-size:14px;font-weight:700;min-width:20px;text-align:center;}
+.pmths{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:4px;}
+.pmth{border:1.5px solid #ddd;border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;transition:all .2s;font-size:10px;}
+.pmth:hover,.pmth.on{border-color:var(--gold);background:#FDF8EE;}
+.pmth .pmic{font-size:16px;margin-bottom:2px;}
+.obtn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gd));color:var(--blk);border:none;padding:13px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;font-family:'Poppins',sans-serif;}
+.obtn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(201,168,76,.4);}
+.waobtn{width:100%;background:var(--wa);color:#fff;border:none;padding:12px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:9px;}
+.waobtn:hover{background:#1da851;}
+.succ{text-align:center;padding:26px 16px;}
+.succ .tk{font-size:52px;margin-bottom:11px;}
+.succ h3{font-family:'Playfair Display',serif;font-size:21px;color:var(--grn);margin-bottom:7px;}
+.succ p{font-size:11px;color:#666;line-height:1.8;}
+
+/* ==================== ADMIN DASHBOARD ==================== */
+.admin-wrap{display:none;position:fixed;inset:0;z-index:900;background:#F1F5F9;overflow-y:auto;}
+.admin-wrap.show{display:block;}
+.admin-header{background:linear-gradient(135deg,var(--blk),#3D2A0A);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:0 3px 16px rgba(0,0,0,.4);}
+.admin-logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--gl);}
+.admin-logo span{font-size:11px;color:var(--gold);display:block;font-family:'Poppins',sans-serif;font-weight:400;letter-spacing:1px;}
+.admin-hbtns{display:flex;gap:10px;align-items:center;}
+.admin-hbtn{background:rgba(201,168,76,.15);color:var(--gl);border:1px solid rgba(201,168,76,.3);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s;}
+.admin-hbtn:hover{background:rgba(201,168,76,.3);}
+.admin-hbtn.red{background:rgba(229,62,62,.2);border-color:rgba(229,62,62,.4);color:#FCA5A5;}
+.admin-hbtn.red:hover{background:rgba(229,62,62,.35);}
+.admin-inner{max-width:1300px;margin:0 auto;padding:24px 28px;}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.astat{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-left:4px solid var(--gold);}
+.astat.blue{border-left-color:#3B82F6;}
+.astat.green{border-left-color:#10B981;}
+.astat.red{border-left-color:#EF4444;}
+.astat.purple{border-left-color:#8B5CF6;}
+.ast-label{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+.ast-val{font-size:28px;font-weight:700;color:var(--blk);font-family:'Playfair Display',serif;}
+.ast-sub{font-size:10px;color:#aaa;margin-top:3px;}
+.admin-section{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.admin-section h2{font-size:15px;font-weight:700;margin-bottom:14px;color:var(--blk);display:flex;align-items:center;gap:8px;}
+.admin-section h2 span{background:var(--gold);color:var(--blk);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;}
+/* ORDER TABLE */
+.otable{width:100%;border-collapse:collapse;}
+.otable th{background:#F8F9FA;padding:10px 12px;text-align:left;font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid #eee;}
+.otable td{padding:12px;font-size:11px;border-bottom:1px solid #f5f5f5;vertical-align:middle;}
+.otable tr:hover td{background:#FFFBEB;}
+.otable .order-id{font-weight:700;color:var(--gd);font-size:12px;}
+.otable .cust-name{font-weight:600;color:var(--blk);}
+.otable .prod-cell{display:flex;align-items:center;gap:8px;}
+.otable .prod-thumb{width:36px;height:36px;border-radius:5px;overflow:hidden;flex-shrink:0;}
+.otable .prod-thumb img{width:100%;height:100%;object-fit:cover;}
+.otable .prod-name{font-weight:600;font-size:11px;}
+.otable .prod-detail{font-size:9px;color:#aaa;}
+.status-badge{padding:3px 10px;border-radius:12px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+.status-badge.pending{background:#FEF3C7;color:#D97706;}
+.status-badge.processing{background:#DBEAFE;color:#2563EB;}
+.status-badge.shipped{background:#D1FAE5;color:#059669;}
+.status-badge.delivered{background:#F0FDF4;color:#16A34A;}
+.pay-badge{padding:2px 8px;border-radius:8px;font-size:9px;font-weight:600;}
+.pay-badge.cod{background:#FEE2E2;color:#DC2626;}
+.pay-badge.upi{background:#E0E7FF;color:#4338CA;}
+.pay-badge.card{background:#FCE7F3;color:#BE185D;}
+.action-btn{padding:5px 11px;border-radius:6px;border:none;font-size:10px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;margin-right:4px;transition:all .2s;}
+.action-btn.view{background:#EFF6FF;color:#3B82F6;}
+.action-btn.view:hover{background:#DBEAFE;}
+.action-btn.del{background:#FEF2F2;color:#EF4444;}
+.action-btn.del:hover{background:#FEE2E2;}
+.status-sel{border:1.5px solid #ddd;border-radius:6px;padding:4px 7px;font-size:10px;font-family:'Poppins',sans-serif;cursor:pointer;outline:none;}
+.status-sel:focus{border-color:var(--gold);}
+.empty-orders{text-align:center;padding:40px;color:#aaa;font-size:13px;}
+/* CUSTOMER TABLE */
+.ctable{width:100%;border-collapse:collapse;}
+.ctable th{background:#F8F9FA;padding:9px 12px;text-align:left;font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid #eee;}
+.ctable td{padding:11px 12px;font-size:11px;border-bottom:1px solid #f5f5f5;}
+.ctable tr:hover td{background:#FFFBEB;}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--blk);font-size:12px;flex-shrink:0;}
+/* ORDER DETAIL */
+.od-modal{max-width:560px;}
+.od-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.od-field{background:#F8F9FA;border-radius:8px;padding:10px 13px;}
+.od-label{font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;}
+.od-val{font-size:12px;font-weight:600;color:var(--blk);}
+/* SEARCH FILTER */
+.admin-filters{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.af{padding:7px 14px;border:1.5px solid #ddd;border-radius:8px;font-size:11px;font-family:'Poppins',sans-serif;outline:none;cursor:pointer;}
+.af:focus{border-color:var(--gold);}
+.af-search{flex:1;max-width:260px;}
+
+/* WA FLOAT */
+.waf{position:fixed;bottom:22px;right:22px;z-index:300;display:flex;flex-direction:column;align-items:flex-end;gap:7px;}
+.wafl{background:var(--blk);color:var(--gl);font-size:9px;font-weight:600;padding:4px 10px;border-radius:20px;}
+.wafb{width:54px;height:54px;background:var(--wa);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,.5);cursor:pointer;font-size:25px;border:none;animation:wap 2s infinite;}
+@keyframes wap{0%,100%{box-shadow:0 4px 16px rgba(37,211,102,.5)}50%{box-shadow:0 4px 26px rgba(37,211,102,.9)}}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--grn);color:#fff;padding:11px 18px;border-radius:9px;font-size:11px;font-weight:600;z-index:2000;opacity:0;transition:all .3s;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+@media(max-width:1024px){.pgrid{grid-template-columns:repeat(3,1fr);}.admin-stats{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){.pgrid{grid-template-columns:repeat(2,1fr);}.catgrid{grid-template-columns:repeat(3,1fr);}.hero-in{grid-template-columns:1fr;}.banners{grid-template-columns:1fr;padding:0 14px 20px;}.fgrid{grid-template-columns:1fr 1fr;}.dgrid{grid-template-columns:repeat(2,1fr);}.rgrid{grid-template-columns:1fr;}.otable,.ctable{font-size:10px;}.frow{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ==================== LOGIN PAGE ==================== -->
+<div class="auth-wrap show" id="authWrap">
+  <div class="auth-box">
+    <div class="auth-header">
+      <div class="auth-logo">Saindhavi Fashion<small>✦ BOUTIQUE ✦</small></div>
+      <div class="auth-subtitle">உங்கள் account-ல login செய்யுங்கள்</div>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab on" id="tab-login" onclick="switchTab('login')">🔐 Login</button>
+      <button class="auth-tab" id="tab-register" onclick="switchTab('register')">✨ New Account</button>
+      <button class="auth-tab" id="tab-admin" onclick="switchTab('admin')" style="background:#FDF8EE">👑 Admin</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="auth-body" id="loginBody">
+      <div id="loginErr"></div>
+      <div class="fg">
+        <label>Email Address</label>
+        <input type="email" id="lEmail" placeholder="your@email.com" onkeypress="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="fg">
+        <label>Password</label>
+        <input type="password" id="lPass" placeholder="Enter your password" onkeypress="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="auth-btn gold" onclick="doLogin()">Login to Shop 🛍️</button>
+      <div class="auth-divider">Demo accounts below</div>
+      <div style="background:#FDF8EE;border-radius:8px;padding:12px;font-size:11px;color:#666;line-height:1.9">
+        <strong style="color:var(--gd)">Demo Customer Login:</strong><br>
+        📧 priya@gmail.com → password: priya123<br>
+        📧 rahul@gmail.com → password: rahul123<br>
+        📧 meena@gmail.com → password: meena123
+      </div>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-body hide" id="registerBody">
+      <div id="regErr"></div>
+      <div class="frow" style="margin-bottom:0">
+        <div class="fg"><label>First Name</label><input type="text" id="rFName" placeholder="Priya"></div>
+        <div class="fg"><label>Last Name</label><input type="text" id="rLName" placeholder="Suresh"></div>
+      </div>
+      <div class="fg"><label>Email Address</label><input type="email" id="rEmail" placeholder="your@email.com"></div>
+      <div class="fg"><label>Phone Number</label><input type="tel" id="rPhone" placeholder="+91 99999 99999"></div>
+      <div class="fg"><label>City</label><input type="text" id="rCity" placeholder="Chennai"></div>
+      <div class="fg">
+        <label>Password</label>
+        <input type="password" id="rPass" placeholder="Min 6 characters">
+        <div class="hint">Password minimum 6 characters வேண்டும்</div>
+      </div>
+      <button class="auth-btn gold" onclick="doRegister()">Create Account 🎉</button>
+    </div>
+
+    <!-- ADMIN -->
+    <div class="auth-body hide" id="adminBody">
+      <div id="adminErr"></div>
+      <div style="background:#1A1209;border-radius:10px;padding:14px;margin-bottom:16px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:6px;">👑</div>
+        <div style="color:var(--gold-light, var(--gl));font-size:13px;font-weight:700;">Admin Dashboard Access</div>
+        <div style="color:rgba(245,217,139,.6);font-size:10px;margin-top:3px;">Saindhavi Fashion Management</div>
+      </div>
+      <div class="fg">
+        <label>Admin Username</label>
+        <input type="text" id="aUser" placeholder="admin" onkeypress="if(event.key==='Enter')doAdminLogin()">
+      </div>
+      <div class="fg">
+        <label>Admin Password</label>
+        <input type="password" id="aPass" placeholder="admin123" onkeypress="if(event.key==='Enter')doAdminLogin()">
+        <div class="hint" style="color:#aaa">Username: admin | Password: admin123</div>
+      </div>
+      <button class="auth-btn dark" onclick="doAdminLogin()">👑 Access Admin Panel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ADMIN DASHBOARD ==================== -->
+<div class="admin-wrap" id="adminWrap">
+  <div class="admin-header">
+    <div class="admin-logo">👑 Saindhavi Fashion<span>Admin Dashboard</span></div>
+    <div class="admin-hbtns">
+      <button class="admin-hbtn" onclick="adminTab('orders')">📦 Orders</button>
+      <button class="admin-hbtn" onclick="adminTab('customers')">👥 Customers</button>
+      <button class="admin-hbtn" onclick="adminTab('products')">🛍️ Products</button>
+      <button class="admin-hbtn red" onclick="adminLogout()">🚪 Logout</button>
+    </div>
+  </div>
+  <div class="admin-inner">
+    <!-- STATS -->
+    <div class="admin-stats" id="adminStats"></div>
+    <!-- CONTENT -->
+    <div id="adminContent"></div>
+  </div>
+</div>
+
+<!-- ORDER DETAIL MODAL -->
+<div class="ov" id="odOv">
+  <div class="modal od-modal">
+    <div class="mhd"><div class="mtitle">📦 Order Details</div><button class="mclose" onclick="closeOv('odOv')">✕</button></div>
+    <div id="odContent"></div>
+  </div>
+</div>
+
+<!-- ==================== MAIN SHOP ==================== -->
+<div id="shopWrap" style="display:none">
+  <div class="topbar"><marquee>🎉 GRAND SALE — ₹500 off ₹2000+ | Code: SAINDHA500 &nbsp;🚚 Free Delivery ₹999+ &nbsp;💳 COD Available &nbsp;↩️ 7-Day Returns &nbsp;💬 WhatsApp: +91 98765 43210</marquee></div>
+
+  <header>
+    <div class="hdr">
+      <div class="logo" onclick="scrollTo(0,0)">Saindhavi<small>✦ FASHION ✦</small></div>
+      <div class="srch">
+        <input type="text" id="si" placeholder="Saree, Kurti, Shirt..." onkeypress="if(event.key==='Enter')doSearch()">
+        <button onclick="doSearch()">🔍</button>
+      </div>
+      <div class="hacts">
+        <div class="hbtn" onclick="showMyOrders()"><span class="ico">📦</span><span>My Orders</span></div>
+        <div class="hbtn" onclick="showToast('❤️ '+wishlist.length+' items')"><span class="ico">❤️</span><span>Wishlist</span><span class="bdg" id="wc">0</span></div>
+        <div class="hbtn" onclick="openCart()"><span class="ico">🛒</span><span>Cart</span><span class="bdg" id="cc">0</span></div>
+        <div class="user-badge" id="userBadge" onclick="showUserMenu()">
+          <span>👤</span><span class="uname" id="uname"></span><span>▾</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav">
+      <div class="ni act" onclick="navCat(this,'all')">🏠 Home</div>
+      <div class="ni" onclick="navCat(this,'women')">👗 Women</div>
+      <div class="ni" onclick="navCat(this,'men')">👔 Men</div>
+      <div class="ni" onclick="navCat(this,'kids')">🧒 Kids</div>
+      <div class="ni" onclick="navCat(this,'ethnic')">🥻 Ethnic</div>
+      <div class="ni" onclick="navCat(this,'western')">👖 Western</div>
+      <div class="ni" onclick="navCat(this,'accessories')">💍 Accessories</div>
+      <div class="ni sale" onclick="navCat(this,'sale')">🔥 SALE</div>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-in">
+      <div>
+        <h1>உங்கள் Style,<br><em>உங்கள் Choice!</em></h1>
+        <p>Girls & Boys Fashion — ₹500 முதல் ₹5,000 வரை!<br>50+ trending styles, fast delivery, easy returns.</p>
+        <div class="hbtns">
+          <button class="bgold" onclick="navCat(null,'women')">👗 Girls Shopping</button>
+          <button class="boutl" onclick="navCat(null,'men')">👔 Boys Shopping</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="sn">50K+</div><div class="sl">Customers</div></div>
+        <div class="stat"><div class="sn">50+</div><div class="sl">Products</div></div>
+        <div class="stat"><div class="sn">FREE</div><div class="sl">Delivery ₹999+</div></div>
+        <div class="stat"><div class="sn">7 Day</div><div class="sl">Easy Returns</div></div>
+        <div class="stat"><div class="sn">4.8★</div><div class="sl">Rating</div></div>
+        <div class="stat"><div class="sn">COD</div><div class="sl">Available</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="offers">
+    <div class="oi">🚚 Free delivery ₹999+</div><div class="oi">↩️ 7-day returns</div>
+    <div class="oi">💳 COD available</div><div class="oi">✅ 100% genuine</div>
+    <div class="oi">🔒 Secure payment</div><div class="oi">💬 WhatsApp support</div>
+  </div>
+
+  <div class="sec">
+    <div class="shead"><h2 class="stitle">Shop by Category</h2></div>
+    <div class="catgrid">
+      <div class="catcard" onclick="navCat(null,'ethnic')"><div class="cimg"><img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=280&h=130&fit=crop&q=80" alt="Sarees"></div><div class="cinfo"><div class="cname">Sarees</div><div class="ccount">1,200+ styles</div></div></div>
+      <div class="catcard" onclick="navCat(null,'women')"><div class="cimg"><img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=280&h=130&fit=crop&q=80" alt="Kurtis"></div><div class="cinfo"><div class="cname">Kurtis</div><div class="ccount">800+ designs</div></div></div>
+      <div class="catcard" onclick="navCat(null,'men')"><div class="cimg"><img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=280&h=130&fit=crop&q=80" alt="Men"></div><div class="cinfo"><div class="cname">Men's Shirts</div><div class="ccount">600+ options</div></div></div>
+      <div class="catcard" onclick="navCat(null,'western')"><div class="cimg"><img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=280&h=130&fit=crop&q=80" alt="Jeans"></div><div class="cinfo"><div class="cname">Jeans & Pants</div><div class="ccount">400+ fits</div></div></div>
+      <div class="catcard" onclick="navCat(null,'kids')"><div class="cimg"><img src="https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=280&h=130&fit=crop&q=80" alt="Kids"></div><div class="cinfo"><div class="cname">Kids Wear</div><div class="ccount">500+ pieces</div></div></div>
+      <div class="catcard" onclick="navCat(null,'accessories')"><div class="cimg"><img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=280&h=130&fit=crop&q=80" alt="Accessories"></div><div class="cinfo"><div class="cname">Accessories</div><div class="ccount">300+ items</div></div></div>
+    </div>
+  </div>
+
+  <div class="banners">
+    <div class="bnr girls" onclick="navCat(null,'women')"><img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=680&h=190&fit=crop&q=80" alt="Girls"><div class="bov"><h3>Girls Collection</h3><p>Sarees • Kurtis • Dresses<br>Up to 70% OFF</p><button class="bnrbtn">Shop Now →</button></div></div>
+    <div class="bnr boys" onclick="navCat(null,'men')"><img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=680&h=190&fit=crop&q=80" alt="Boys"><div class="bov"><h3>Boys Collection</h3><p>Shirts • Trousers • Ethnic<br>New Arrivals Daily</p><button class="bnrbtn">Shop Now →</button></div></div>
+  </div>
+
+  <div class="sec" id="psec">
+    <div class="shead"><h2 class="stitle" id="ptitle">Trending Now 🔥</h2></div>
+    <div class="fbar" id="fbar"></div>
+    <div class="pgrid" id="pgrid"></div>
+  </div>
+
+  <div class="deals">
+    <div class="din">
+      <div class="dhdr">
+        <div class="dtitle">⚡ Flash Deals — Today Only!</div>
+        <div class="tbox">
+          <div class="tu"><div class="tn" id="th">05</div><div class="tl">Hrs</div></div>
+          <div class="tsep">:</div>
+          <div class="tu"><div class="tn" id="tm">42</div><div class="tl">Min</div></div>
+          <div class="tsep">:</div>
+          <div class="tu"><div class="tn" id="ts">18</div><div class="tl">Sec</div></div>
+        </div>
+      </div>
+      <div class="dgrid" id="dgrid"></div>
+    </div>
+  </div>
+
+  <div class="revs">
+    <div class="rin">
+      <h2 class="stitle">Customer Love ⭐</h2>
+      <div class="rgrid">
+        <div class="rcard"><div class="rstr">★★★★★</div><div class="rtxt">"Saree quality romba nallaa irukku! Delivery super fast. Price also reasonable. Saindhavi Fashion best shop!"</div><div class="rvr"><div class="rav">P</div><div><div style="font-weight:600;font-size:12px">Priya Suresh</div><div style="font-size:10px;color:#888">📍 Chennai</div></div></div></div>
+        <div class="rcard"><div class="rstr">★★★★★</div><div class="rtxt">"Kurti arrived in 3 days! Fabric excellent, exactly matches photo. Packaging also very nice. Will order again!"</div><div class="rvr"><div class="rav">M</div><div><div style="font-weight:600;font-size:12px">Meena Krishnan</div><div style="font-size:10px;color:#888">📍 Coimbatore</div></div></div></div>
+        <div class="rcard"><div class="rstr">★★★★★</div><div class="rtxt">"Shirt quality superb! COD option very useful. WhatsApp order also very easy. Highly recommend Saindhavi!"</div><div class="rvr"><div class="rav">R</div><div><div style="font-weight:600;font-size:12px">Rahul Vignesh</div><div style="font-size:10px;color:#888">📍 Madurai</div></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="fgrid">
+      <div><div class="flogo">✨ Saindhavi Fashion</div><div class="fabout">Tamil Nadu's most loved online fashion destination. Quality clothes for Girls, Boys & Kids at the best prices!</div><div class="srow"><div class="sbtn">📘</div><div class="sbtn">📸</div><div class="sbtn">▶️</div><div class="sbtn" onclick="openWA('Hello!')">💬</div></div></div>
+      <div><div class="fhd">Quick Links</div><ul class="fls"><li><a onclick="navCat(null,'all')">🏠 Home</a></li><li><a onclick="navCat(null,'women')">👗 Women</a></li><li><a onclick="navCat(null,'men')">👔 Men</a></li><li><a onclick="navCat(null,'kids')">🧒 Kids</a></li><li><a onclick="navCat(null,'sale')">🔥 Sale</a></li></ul></div>
+      <div><div class="fhd">Support</div><ul class="fls"><li><a onclick="showMyOrders()">📦 Track Order</a></li><li><a>↩️ Returns</a></li><li><a>📏 Size Guide</a></li><li><a onclick="openWA('Hello! Need help')">📞 Contact</a></li></ul></div>
+      <div><div class="fhd">Contact</div><ul class="fls"><li><a onclick="openWA('')">💬 WhatsApp Order</a></li><li><a>📞 +91 98765 43210</a></li><li><a>✉️ care@saindhavi.com</a></li><li><a>⏰ Mon–Sat 9AM–8PM</a></li><li><a>📍 Chennai, TN</a></li></ul></div>
+    </div>
+    <div class="fbot"><div class="payicons"><div class="pico">📱 UPI</div><div class="pico">💳 Cards</div><div class="pico">💵 COD</div><div class="pico">G Pay</div><div class="pico">PhonePe</div><div class="pico">📲 Paytm</div></div><p style="font-size:10px;color:rgba(245,217,139,.3);margin-top:8px">© 2025 Saindhavi Fashion. Made with ❤️ in Tamil Nadu</p></div>
+  </footer>
+
+  <!-- CART MODAL -->
+  <div class="ov" id="cartOv">
+    <div class="modal"><div class="mhd"><div class="mtitle">🛒 Your Cart</div><button class="mclose" onclick="closeOv('cartOv')">✕</button></div>
+    <div id="citems"></div><div id="ctot"></div></div>
+  </div>
+
+  <!-- ORDER MODAL -->
+  <div class="ov" id="orderOv">
+    <div class="modal" style="max-width:520px"><div class="mhd"><div class="mtitle">📦 Place Your Order</div><button class="mclose" onclick="closeOv('orderOv')">✕</button></div>
+    <div id="ocontent"></div></div>
+  </div>
+
+  <!-- MY ORDERS MODAL -->
+  <div class="ov" id="myOrdersOv">
+    <div class="modal" style="max-width:560px"><div class="mhd"><div class="mtitle">📦 My Orders</div><button class="mclose" onclick="closeOv('myOrdersOv')">✕</button></div>
+    <div id="myOrdersContent"></div></div>
+  </div>
+
+  <!-- USER MENU -->
+  <div class="ov" id="userMenuOv">
+    <div class="modal" style="max-width:320px"><div class="mhd"><div class="mtitle">👤 My Account</div><button class="mclose" onclick="closeOv('userMenuOv')">✕</button></div>
+    <div id="userMenuContent"></div></div>
+  </div>
+
+  <div class="waf"><div class="wafl">💬 WhatsApp Order</div><button class="wafb" onclick="openWA('Hello! I want to order from Saindhavi Fashion 🛍️')">💬</button></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const WA='919876543210';
+const openWA=msg=>window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
+
+// ==================== AUTH DATA ====================
+const ADMIN_CREDS={username:'admin',password:'admin123'};
+let CUSTOMERS=JSON.parse(localStorage.getItem('sf_customers')||'[]');
+let ORDERS=JSON.parse(localStorage.getItem('sf_orders')||'[]');
+
+// Pre-seed demo customers
+if(!CUSTOMERS.length){
+  CUSTOMERS=[
+    {id:'C001',fname:'Priya',lname:'Suresh',email:'priya@gmail.com',phone:'+91 98765 11111',city:'Chennai',password:'priya123',joined:new Date(Date.now()-7*864e5).toISOString(),orders:2},
+    {id:'C002',fname:'Rahul',lname:'Vignesh',email:'rahul@gmail.com',phone:'+91 98765 22222',city:'Madurai',password:'rahul123',joined:new Date(Date.now()-4*864e5).toISOString(),orders:1},
+    {id:'C003',fname:'Meena',lname:'Krishnan',email:'meena@gmail.com',phone:'+91 98765 33333',city:'Coimbatore',password:'meena123',joined:new Date(Date.now()-2*864e5).toISOString(),orders:3},
+  ];
+  saveCustomers();
+}
+// Pre-seed demo orders
+if(!ORDERS.length){
+  ORDERS=[
+    {id:'SF100001',custId:'C001',custName:'Priya Suresh',custEmail:'priya@gmail.com',custPhone:'+91 98765 11111',product:'Kanjivaram Silk Saree',productImg:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=80&h=80&fit=crop',size:'Free Size',qty:1,amount:3999,payment:'cod',address:'12, Anna Nagar, Chennai',city:'Chennai',pincode:'600040',status:'delivered',date:new Date(Date.now()-6*864e5).toISOString()},
+    {id:'SF100002',custId:'C003',custName:'Meena Krishnan',custEmail:'meena@gmail.com',custPhone:'+91 98765 33333',product:'Designer Cotton Kurti Set',productImg:'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=80&h=80&fit=crop',size:'M',qty:2,amount:1998,payment:'upi',address:'45, RS Puram, Coimbatore',city:'Coimbatore',pincode:'641002',status:'shipped',date:new Date(Date.now()-3*864e5).toISOString()},
+    {id:'SF100003',custId:'C002',custName:'Rahul Vignesh',custEmail:'rahul@gmail.com',custPhone:'+91 98765 22222',product:'Premium Linen Shirt',productImg:'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=80&h=80&fit=crop',size:'L',qty:1,amount:799,payment:'cod',address:'78, KK Nagar, Madurai',city:'Madurai',pincode:'625020',status:'processing',date:new Date(Date.now()-1*864e5).toISOString()},
+    {id:'SF100004',custId:'C003',custName:'Meena Krishnan',custEmail:'meena@gmail.com',custPhone:'+91 98765 33333',product:'Gold Plated Necklace Set',productImg:'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=80&h=80&fit=crop',size:'Free Size',qty:1,amount:1299,payment:'card',address:'45, RS Puram, Coimbatore',city:'Coimbatore',pincode:'641002',status:'pending',date:new Date(Date.now()-3600000).toISOString()},
+  ];
+  saveOrders();
+}
+
+let currentUser=null;
+let cart=[],wishlist=[],currentCat='all',orderP=null,orderQ=1,orderSz='',orderPay='cod';
+
+function saveCustomers(){localStorage.setItem('sf_customers',JSON.stringify(CUSTOMERS));}
+function saveOrders(){localStorage.setItem('sf_orders',JSON.stringify(ORDERS));}
+
+// ==================== AUTH FUNCTIONS ====================
+function switchTab(tab){
+  ['login','register','admin'].forEach(t=>{
+    document.getElementById(t+'Body').classList.toggle('hide',t!==tab);
+    document.getElementById('tab-'+t).classList.toggle('on',t===tab);
+  });
+}
+
+function showErr(id,msg){const el=document.getElementById(id);el.innerHTML=`<div class="auth-err">⚠️ ${msg}</div>`;}
+function showSucc(id,msg){const el=document.getElementById(id);el.innerHTML=`<div class="auth-succ">✅ ${msg}</div>`;}
+
+function doLogin(){
+  const email=document.getElementById('lEmail').value.trim().toLowerCase();
+  const pass=document.getElementById('lPass').value;
+  if(!email||!pass){showErr('loginErr','Email and password தேவை!');return;}
+  const cust=CUSTOMERS.find(c=>c.email.toLowerCase()===email&&c.password===pass);
+  if(!cust){showErr('loginErr','Email அல்லது Password தவறு!');return;}
+  currentUser=cust;
+  enterShop();
+}
+
+function doRegister(){
+  const fn=document.getElementById('rFName').value.trim();
+  const ln=document.getElementById('rLName').value.trim();
+  const em=document.getElementById('rEmail').value.trim().toLowerCase();
+  const ph=document.getElementById('rPhone').value.trim();
+  const ci=document.getElementById('rCity').value.trim();
+  const pw=document.getElementById('rPass').value;
+  if(!fn||!ln||!em||!ph||!ci||!pw){showErr('regErr','எல்லா fields-ம் fill பண்ணுங்கள்!');return;}
+  if(pw.length<6){showErr('regErr','Password minimum 6 characters வேண்டும்!');return;}
+  if(CUSTOMERS.find(c=>c.email.toLowerCase()===em)){showErr('regErr','இந்த email already registered!');return;}
+  const newC={id:'C'+String(Date.now()).slice(-6),fname:fn,lname:ln,email:em,phone:ph,city:ci,password:pw,joined:new Date().toISOString(),orders:0};
+  CUSTOMERS.push(newC);saveCustomers();
+  currentUser=newC;
+  enterShop();
+}
+
+function doAdminLogin(){
+  const u=document.getElementById('aUser').value.trim();
+  const p=document.getElementById('aPass').value;
+  if(u===ADMIN_CREDS.username&&p===ADMIN_CREDS.password){
+    document.getElementById('authWrap').classList.remove('show');
+    document.getElementById('adminWrap').classList.add('show');
+    renderAdminDashboard('orders');
+  } else {
+    showErr('adminErr','Admin credentials தவறு!');
+  }
+}
+
+function enterShop(){
+  document.getElementById('authWrap').classList.remove('show');
+  document.getElementById('shopWrap').style.display='block';
+  document.getElementById('uname').textContent=currentUser.fname;
+  renderProducts('all');
+  renderDeals();
+  showToast(`👋 Welcome, ${currentUser.fname}!`);
+}
+
+function adminLogout(){
+  document.getElementById('adminWrap').classList.remove('show');
+  document.getElementById('authWrap').classList.add('show');
+}
+
+function shopLogout(){
+  closeOv('userMenuOv');
+  currentUser=null;cart=[];wishlist=[];
+  document.getElementById('shopWrap').style.display='none';
+  document.getElementById('authWrap').classList.add('show');
+  document.getElementById('cc').textContent='0';
+  document.getElementById('wc').textContent='0';
+}
+
+// ==================== ADMIN DASHBOARD ====================
+function renderAdminDashboard(tab){
+  // Stats
+  const total=ORDERS.reduce((s,o)=>s+o.amount,0);
+  const pending=ORDERS.filter(o=>o.status==='pending').length;
+  const delivered=ORDERS.filter(o=>o.status==='delivered').length;
+  document.getElementById('adminStats').innerHTML=`
+    <div class="astat blue"><div class="ast-label">📦 Total Orders</div><div class="ast-val">${ORDERS.length}</div><div class="ast-sub">All time</div></div>
+    <div class="astat green"><div class="ast-label">💰 Total Revenue</div><div class="ast-val">₹${total.toLocaleString()}</div><div class="ast-sub">Gross sales</div></div>
+    <div class="astat red"><div class="ast-label">⏳ Pending</div><div class="ast-val">${pending}</div><div class="ast-sub">Need attention</div></div>
+    <div class="astat purple"><div class="ast-label">👥 Customers</div><div class="ast-val">${CUSTOMERS.length}</div><div class="ast-sub">Registered users</div></div>`;
+  if(tab==='orders')renderOrdersTab();
+  else if(tab==='customers')renderCustomersTab();
+  else if(tab==='products')renderProductsTab();
+}
+
+function adminTab(tab){renderAdminDashboard(tab);}
+
+function renderOrdersTab(){
+  const html=`<div class="admin-section">
+    <h2>📦 All Orders <span>${ORDERS.length}</span></h2>
+    <div class="admin-filters">
+      <input class="af af-search" type="text" placeholder="🔍 Search by name, order ID, product..." oninput="filterOrders(this.value)" id="orderSearch">
+      <select class="af" onchange="filterOrdersByStatus(this.value)">
+        <option value="">All Status</option>
+        <option>pending</option><option>processing</option><option>shipped</option><option>delivered</option>
+      </select>
+      <select class="af" onchange="filterOrdersByPayment(this.value)">
+        <option value="">All Payment</option>
+        <option>cod</option><option>upi</option><option>card</option>
+      </select>
+    </div>
+    <div style="overflow-x:auto"><table class="otable" id="orderTable">${buildOrderRows(ORDERS)}</table></div>
+  </div>`;
+  document.getElementById('adminContent').innerHTML=html;
+}
+
+function buildOrderRows(orders){
+  if(!orders.length)return `<tr><td colspan="9"><div class="empty-orders">📭 No orders yet</div></td></tr>`;
+  const head=`<thead><tr>
+    <th>Order ID</th><th>Customer</th><th>Product</th><th>Qty</th>
+    <th>Amount</th><th>Payment</th><th>Status</th><th>Date</th><th>Actions</th>
+  </tr></thead>`;
+  const rows=orders.map(o=>{
+    const d=new Date(o.date);
+    const ds=d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+    return `<tr>
+      <td><span class="order-id">#${o.id}</span></td>
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:30px;height:30px;font-size:10px">${o.custName.charAt(0)}</div><div><div class="cust-name">${o.custName}</div><div style="font-size:9px;color:#aaa">${o.custPhone}</div></div></div></td>
+      <td><div class="prod-cell"><div class="prod-thumb"><img src="${o.productImg}" alt="${o.product}" onerror="this.src='https://via.placeholder.com/36'"></div><div><div class="prod-name">${o.product}</div><div class="prod-detail">Size: ${o.size}</div></div></div></td>
+      <td style="text-align:center;font-weight:700">${o.qty}</td>
+      <td><strong>₹${o.amount.toLocaleString()}</strong></td>
+      <td><span class="pay-badge ${o.payment}">${o.payment.toUpperCase()}</span></td>
+      <td><select class="status-sel" onchange="updateOrderStatus('${o.id}',this.value)">
+        ${['pending','processing','shipped','delivered'].map(s=>`<option value="${s}"${o.status===s?' selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}
+      </select></td>
+      <td style="color:#888;white-space:nowrap">${ds}</td>
+      <td>
+        <button class="action-btn view" onclick="viewOrderDetail('${o.id}')">👁 View</button>
+        <button class="action-btn del" onclick="deleteOrder('${o.id}')">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+  return head+'<tbody>'+rows+'</tbody>';
+}
+
+function filterOrders(q){
+  const q2=q.toLowerCase();
+  const filtered=q2?ORDERS.filter(o=>o.custName.toLowerCase().includes(q2)||o.id.includes(q2)||o.product.toLowerCase().includes(q2)||o.custEmail.toLowerCase().includes(q2)):ORDERS;
+  const t=document.getElementById('orderTable');if(t)t.innerHTML=buildOrderRows(filtered);
+}
+function filterOrdersByStatus(s){
+  const filtered=s?ORDERS.filter(o=>o.status===s):ORDERS;
+  const t=document.getElementById('orderTable');if(t)t.innerHTML=buildOrderRows(filtered);
+}
+function filterOrdersByPayment(p){
+  const filtered=p?ORDERS.filter(o=>o.payment===p):ORDERS;
+  const t=document.getElementById('orderTable');if(t)t.innerHTML=buildOrderRows(filtered);
+}
+
+function updateOrderStatus(oid,status){
+  const o=ORDERS.find(x=>x.id===oid);if(o){o.status=status;saveOrders();}
+  showToast('✅ Status updated to: '+status);
+}
+
+function deleteOrder(oid){
+  if(!confirm('Delete this order?'))return;
+  ORDERS=ORDERS.filter(x=>x.id!==oid);saveOrders();
+  renderAdminDashboard('orders');
+}
+
+function viewOrderDetail(oid){
+  const o=ORDERS.find(x=>x.id===oid);if(!o)return;
+  const d=new Date(o.date).toLocaleString('en-IN');
+  document.getElementById('odContent').innerHTML=`
+    <div style="display:flex;gap:14px;background:#FDF8EE;border-radius:10px;padding:14px;margin-bottom:18px;border:1px solid rgba(201,168,76,.3)">
+      <img src="${o.productImg}" style="width:80px;height:80px;border-radius:8px;object-fit:cover" onerror="this.src='https://via.placeholder.com/80'">
+      <div><div style="font-size:14px;font-weight:700;margin-bottom:4px">${o.product}</div>
+      <div style="font-size:11px;color:#888">Size: ${o.size} | Qty: ${o.qty}</div>
+      <div style="font-size:20px;font-weight:700;color:var(--gd);margin-top:4px">₹${o.amount.toLocaleString()}</div></div>
+    </div>
+    <div class="od-grid">
+      <div class="od-field"><div class="od-label">Order ID</div><div class="od-val">#${o.id}</div></div>
+      <div class="od-field"><div class="od-label">Date & Time</div><div class="od-val">${d}</div></div>
+      <div class="od-field"><div class="od-label">Customer Name</div><div class="od-val">${o.custName}</div></div>
+      <div class="od-field"><div class="od-label">Phone</div><div class="od-val">${o.custPhone}</div></div>
+      <div class="od-field"><div class="od-label">Email</div><div class="od-val">${o.custEmail}</div></div>
+      <div class="od-field"><div class="od-label">Payment</div><div class="od-val">${o.payment.toUpperCase()}</div></div>
+      <div class="od-field" style="grid-column:1/-1"><div class="od-label">Delivery Address</div><div class="od-val">${o.address}, ${o.city} - ${o.pincode}</div></div>
+      <div class="od-field" style="grid-column:1/-1"><div class="od-label">Status</div>
+        <select class="status-sel" style="margin-top:4px;font-size:12px;padding:7px 10px" onchange="updateOrderStatus('${o.id}',this.value)">
+          ${['pending','processing','shipped','delivered'].map(s=>`<option value="${s}"${o.status===s?' selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <button class="waobtn" style="margin-top:10px" onclick="openWA('Hello ${o.custName}! Your order #${o.id} for ${o.product} is now ${o.status}. Thank you for shopping at Saindhavi Fashion!')">💬 Notify Customer on WhatsApp</button>`;
+  document.getElementById('odOv').classList.add('open');
+}
+
+function renderCustomersTab(){
+  const html=`<div class="admin-section">
+    <h2>👥 Registered Customers <span>${CUSTOMERS.length}</span></h2>
+    <div class="admin-filters">
+      <input class="af af-search" type="text" placeholder="🔍 Search customers..." oninput="filterCustomers(this.value)">
+    </div>
+    <div style="overflow-x:auto"><table class="ctable" id="custTable">${buildCustRows(CUSTOMERS)}</table></div>
+  </div>`;
+  document.getElementById('adminContent').innerHTML=html;
+}
+
+function buildCustRows(custs){
+  if(!custs.length)return `<tr><td colspan="7" style="text-align:center;padding:30px;color:#aaa">No customers yet</td></tr>`;
+  const head=`<thead><tr><th>Customer</th><th>Email</th><th>Phone</th><th>City</th><th>Orders</th><th>Joined</th><th>Action</th></tr></thead>`;
+  const rows=custs.map(c=>{
+    const custOrders=ORDERS.filter(o=>o.custId===c.id);
+    const spent=custOrders.reduce((s,o)=>s+o.amount,0);
+    const d=new Date(c.joined).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+    return `<tr>
+      <td><div style="display:flex;align-items:center;gap:9px"><div class="avatar">${c.fname.charAt(0)}</div><div><div style="font-weight:600;font-size:12px">${c.fname} ${c.lname}</div><div style="font-size:9px;color:#aaa">ID: ${c.id}</div></div></div></td>
+      <td>${c.email}</td>
+      <td>${c.phone}</td>
+      <td>📍 ${c.city}</td>
+      <td><span style="font-weight:700">${custOrders.length}</span> orders <span style="color:var(--grn);font-size:10px">(₹${spent.toLocaleString()})</span></td>
+      <td style="color:#888;font-size:10px">${d}</td>
+      <td><button class="action-btn view" onclick="viewCustOrders('${c.id}')">📦 Orders</button>
+          <button class="action-btn view" style="background:#F0FDF4;color:#16A34A" onclick="openWA('Hello ${c.fname}! Special offer from Saindhavi Fashion just for you 🎉')">💬</button></td>
+    </tr>`;
+  }).join('');
+  return head+'<tbody>'+rows+'</tbody>';
+}
+
+function filterCustomers(q){
+  const q2=q.toLowerCase();
+  const filtered=q2?CUSTOMERS.filter(c=>(c.fname+' '+c.lname).toLowerCase().includes(q2)||c.email.toLowerCase().includes(q2)||c.city.toLowerCase().includes(q2)):CUSTOMERS;
+  const t=document.getElementById('custTable');if(t)t.innerHTML=buildCustRows(filtered);
+}
+
+function viewCustOrders(cid){
+  const c=CUSTOMERS.find(x=>x.id===cid);
+  const orders=ORDERS.filter(o=>o.custId===cid);
+  const total=orders.reduce((s,o)=>s+o.amount,0);
+  document.getElementById('odContent').innerHTML=`
+    <div style="display:flex;align-items:center;gap:12px;background:#FDF8EE;border-radius:10px;padding:14px;margin-bottom:16px;border:1px solid rgba(201,168,76,.3)">
+      <div class="avatar" style="width:48px;height:48px;font-size:16px">${c.fname.charAt(0)}</div>
+      <div><div style="font-size:15px;font-weight:700">${c.fname} ${c.lname}</div>
+      <div style="font-size:11px;color:#888">${c.email} | ${c.phone}</div>
+      <div style="font-size:11px;color:var(--grn);margin-top:2px">Total Spent: ₹${total.toLocaleString()} | ${orders.length} orders</div></div>
+    </div>
+    ${orders.length?orders.map(o=>`
+      <div style="border:1px solid #eee;border-radius:9px;padding:12px;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+          <div style="font-size:11px;font-weight:700;color:var(--gd)">#${o.id}</div>
+          <span class="status-badge ${o.status}">${o.status}</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <img src="${o.productImg}" style="width:44px;height:44px;border-radius:6px;object-fit:cover">
+          <div style="flex:1"><div style="font-size:12px;font-weight:600">${o.product}</div>
+          <div style="font-size:10px;color:#aaa">Size: ${o.size} | Qty: ${o.qty} | ${o.payment.toUpperCase()}</div></div>
+          <div style="font-size:14px;font-weight:700;color:var(--gd)">₹${o.amount.toLocaleString()}</div>
+        </div>
+      </div>`).join(''):'<div class="empty-orders">📭 No orders from this customer yet</div>'}`;
+  document.getElementById('odOv').classList.add('open');
+}
+
+function renderProductsTab(){
+  document.getElementById('adminContent').innerHTML=`
+    <div class="admin-section">
+      <h2>🛍️ Products <span>${products.length}</span></h2>
+      <div style="overflow-x:auto"><table class="otable">
+        <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>MRP</th><th>Discount</th><th>Sizes</th></tr></thead>
+        <tbody>${products.map(p=>`<tr>
+          <td><div class="prod-cell"><div class="prod-thumb"><img src="${p.img}" alt="${p.name}"></div><div><div class="prod-name">${p.name}</div><div class="prod-detail">${p.brand}</div></div></div></td>
+          <td>${p.cat}</td>
+          <td><strong>₹${p.price.toLocaleString()}</strong></td>
+          <td style="color:#bbb;text-decoration:line-through">₹${p.old.toLocaleString()}</td>
+          <td><span style="color:var(--grn);font-weight:700">${Math.round((p.old-p.price)/p.old*100)}% off</span></td>
+          <td style="font-size:10px">${p.sizes.join(', ')}</td>
+        </tr>`).join('')}</tbody>
+      </table></div>
+    </div>`;
+}
+
+// ==================== SHOP PRODUCTS ====================
+const products=[
+  {id:1,img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&h=520&fit=crop&q=82',name:'Kanjivaram Silk Saree',brand:'SAINDHAVI',cat:'ethnic',gender:'women',price:3999,old:5999,rating:4.9,reviews:2341,badge:'BESTSELLER',bt:'o',sizes:['Free Size']},
+  {id:2,img:'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=520&fit=crop&q=82',name:'Designer Cotton Kurti Set',brand:'SAINDHAVI',cat:'women',gender:'women',price:999,old:1799,rating:4.7,reviews:892,badge:'44% OFF',bt:'r',sizes:['XS','S','M','L','XL','XXL']},
+  {id:3,img:'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=400&h=520&fit=crop&q=82',name:'Floral Maxi Dress',brand:'SAINDHAVI',cat:'women',gender:'women',price:1299,old:2199,rating:4.7,reviews:567,badge:'NEW',bt:'g',sizes:['XS','S','M','L','XL']},
+  {id:4,img:'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=400&h=520&fit=crop&q=82',name:'Party Lehenga Choli',brand:'SAINDHAVI',cat:'ethnic',gender:'women',price:4500,old:7999,badge:'HOT',bt:'o',rating:4.9,reviews:445,sizes:['S','M','L','XL']},
+  {id:5,img:'https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=400&h=520&fit=crop&q=82',name:'Printed Chiffon Saree',brand:'SAINDHAVI',cat:'ethnic',gender:'women',price:1799,old:2999,badge:'40% OFF',bt:'r',rating:4.8,reviews:1120,sizes:['Free Size']},
+  {id:6,img:'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=520&fit=crop&q=82',name:'A-Line Western Dress',brand:'SAINDHAVI',cat:'western',gender:'women',price:899,old:1599,badge:'NEW',bt:'g',rating:4.5,reviews:234,sizes:['XS','S','M','L','XL']},
+  {id:7,img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=520&fit=crop&q=82',name:'Casual Printed Kurti',brand:'SAINDHAVI',cat:'women',gender:'women',price:599,old:999,badge:'40% OFF',bt:'r',rating:4.4,reviews:678,sizes:['S','M','L','XL','XXL']},
+  {id:8,img:'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=400&h=520&fit=crop&q=82',name:'Wrap Midi Dress',brand:'SAINDHAVI',cat:'western',gender:'women',price:1199,old:1999,badge:'TRENDING',bt:'r',rating:4.6,reviews:399,sizes:['XS','S','M','L']},
+  {id:9,img:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&h=520&fit=crop&q=82',name:'Cotton Palazzo Set',brand:'SAINDHAVI',cat:'women',gender:'women',price:799,old:1399,badge:'43% OFF',bt:'r',rating:4.5,reviews:512,sizes:['S','M','L','XL','XXL']},
+  {id:10,img:'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=520&fit=crop&q=82',name:'Georgette Anarkali Suit',brand:'SAINDHAVI',cat:'ethnic',gender:'women',price:2499,old:3999,badge:'38% OFF',bt:'r',rating:4.8,reviews:743,sizes:['S','M','L','XL','XXL']},
+  {id:11,img:'https://images.unsplash.com/photo-1618354691792-d1d42acfd860?w=400&h=520&fit=crop&q=82',name:'Embroidered Suit Set',brand:'SAINDHAVI',cat:'ethnic',gender:'women',price:1999,old:3499,badge:'43% OFF',bt:'r',rating:4.7,reviews:564,sizes:['S','M','L','XL','XXL']},
+  {id:12,img:'https://images.unsplash.com/photo-1613087267776-3d7d45fe6cad?w=400&h=520&fit=crop&q=82',name:'Banarasi Cotton Saree',brand:'SAINDHAVI',cat:'ethnic',gender:'women',price:2999,old:4999,badge:'40% OFF',bt:'r',rating:4.9,reviews:1043,sizes:['Free Size']},
+  {id:13,img:'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=520&fit=crop&q=82',name:'Premium Linen Shirt',brand:'SAINDHAVI',cat:'men',gender:'men',price:799,old:1499,badge:'47% OFF',bt:'r',rating:4.8,reviews:1205,sizes:['S','M','L','XL','XXL']},
+  {id:14,img:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=520&fit=crop&q=82',name:'Casual Polo T-Shirt',brand:'SAINDHAVI',cat:'men',gender:'men',price:549,old:999,badge:'45% OFF',bt:'r',rating:4.5,reviews:2109,sizes:['S','M','L','XL','XXL']},
+  {id:15,img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=520&fit=crop&q=82',name:'Ethnic Kurta Pajama Set',brand:'SAINDHAVI',cat:'ethnic',gender:'men',price:1799,old:2999,badge:'DIWALI',bt:'o',rating:4.7,reviews:456,sizes:['S','M','L','XL','XXL']},
+  {id:16,img:'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=520&fit=crop&q=82',name:'Slim Fit Chinos',brand:'SAINDHAVI',cat:'western',gender:'men',price:999,old:1799,badge:'44% OFF',bt:'r',rating:4.6,reviews:678,sizes:['28','30','32','34','36','38']},
+  {id:17,img:'https://images.unsplash.com/photo-1603252109303-2751441dd157?w=400&h=520&fit=crop&q=82',name:'Formal Oxford Shirt',brand:'SAINDHAVI',cat:'men',gender:'men',price:899,old:1599,badge:'NEW',bt:'g',rating:4.7,reviews:867,sizes:['S','M','L','XL','XXL']},
+  {id:18,img:'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&h=520&fit=crop&q=82',name:'Stylish Jogger Pants',brand:'SAINDHAVI',cat:'western',gender:'men',price:799,old:1399,badge:'43% OFF',bt:'r',rating:4.4,reviews:387,sizes:['S','M','L','XL','XXL']},
+  {id:19,img:'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?w=400&h=520&fit=crop&q=82',name:'Graphic Print T-Shirt',brand:'SAINDHAVI',cat:'men',gender:'men',price:499,old:899,badge:'45% OFF',bt:'r',rating:4.3,reviews:1450,sizes:['S','M','L','XL','XXL']},
+  {id:20,img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=520&fit=crop&q=82',name:'Men Pathani Suit',brand:'SAINDHAVI',cat:'ethnic',gender:'men',price:1499,old:2499,badge:'40% OFF',bt:'r',rating:4.7,reviews:342,sizes:['S','M','L','XL','XXL']},
+  {id:21,img:'https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=400&h=520&fit=crop&q=82',name:'Striped Casual Shirt',brand:'SAINDHAVI',cat:'men',gender:'men',price:649,old:1199,badge:'46% OFF',bt:'r',rating:4.4,reviews:723,sizes:['S','M','L','XL','XXL']},
+  {id:22,img:'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=520&fit=crop&q=82',name:'Casual Denim Jacket',brand:'SAINDHAVI',cat:'western',gender:'men',price:2199,old:3999,badge:'45% OFF',bt:'r',rating:4.6,reviews:532,sizes:['S','M','L','XL']},
+  {id:23,img:'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=400&h=520&fit=crop&q=82',name:'Kids Party Ethnic Set',brand:'SAINDHAVI',cat:'kids',gender:'kids',price:799,old:1399,badge:'43% OFF',bt:'r',rating:4.8,reviews:334,sizes:['2Y','4Y','6Y','8Y','10Y']},
+  {id:24,img:'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=400&h=520&fit=crop&q=82',name:'Kids Casual Frock',brand:'SAINDHAVI',cat:'kids',gender:'kids',price:599,old:999,badge:'NEW',bt:'g',rating:4.7,reviews:211,sizes:['2Y','4Y','6Y','8Y']},
+  {id:25,img:'https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=400&h=520&fit=crop&q=82',name:'Girls Lehenga Choli',brand:'SAINDHAVI',cat:'kids',gender:'kids',price:1199,old:1999,badge:'40% OFF',bt:'r',rating:4.8,reviews:267,sizes:['2Y','4Y','6Y','8Y','10Y','12Y']},
+  {id:26,img:'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400&h=520&fit=crop&q=82',name:'Kids Printed T-Shirt',brand:'SAINDHAVI',cat:'kids',gender:'kids',price:399,old:699,badge:'43% OFF',bt:'r',rating:4.4,reviews:432,sizes:['2Y','4Y','6Y','8Y','10Y']},
+  {id:27,img:'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&h=520&fit=crop&q=82',name:'Gold Plated Necklace Set',brand:'SAINDHAVI',cat:'accessories',gender:'women',price:1299,old:2499,badge:'48% OFF',bt:'r',rating:4.6,reviews:789,sizes:['Free Size']},
+  {id:28,img:'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=520&fit=crop&q=82',name:'Kundan Bangles Set',brand:'SAINDHAVI',cat:'accessories',gender:'women',price:699,old:1299,badge:'46% OFF',bt:'r',rating:4.5,reviews:412,sizes:['2.4','2.6','2.8']},
+  {id:29,img:'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=520&fit=crop&q=82',name:'Jhumka Earrings Set',brand:'SAINDHAVI',cat:'accessories',gender:'women',price:549,old:999,badge:'45% OFF',bt:'r',rating:4.7,reviews:623,sizes:['Free Size']},
+  {id:30,img:'https://images.unsplash.com/photo-1583395838144-09adb6fd3c6d?w=400&h=520&fit=crop&q=82',name:'Oxidised Silver Set',brand:'SAINDHAVI',cat:'accessories',gender:'women',price:1499,old:2799,badge:'46% OFF',bt:'r',rating:4.8,reviews:512,sizes:['Free Size']},
+  {id:31,img:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=520&fit=crop&q=82',name:'Designer Clutch Bag',brand:'SAINDHAVI',cat:'accessories',gender:'women',price:1199,old:2199,badge:'45% OFF',bt:'r',rating:4.6,reviews:398,sizes:['Free Size']},
+  {id:32,img:'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=520&fit=crop&q=82',name:'Skinny Stretch Jeans',brand:'SAINDHAVI',cat:'western',gender:'women',price:1199,old:2199,badge:'45% OFF',bt:'r',rating:4.6,reviews:533,sizes:['26','28','30','32','34']},
+  {id:33,img:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&h=520&fit=crop&q=82',name:'Formal Blazer Women',brand:'SAINDHAVI',cat:'western',gender:'women',price:2499,old:4499,badge:'44% OFF',bt:'r',rating:4.7,reviews:321,sizes:['XS','S','M','L','XL']},
+  {id:34,img:'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=400&h=520&fit=crop&q=82',name:'Denim Shorts',brand:'SAINDHAVI',cat:'western',gender:'women',price:699,old:1299,badge:'46% OFF',bt:'r',rating:4.4,reviews:412,sizes:['26','28','30','32']},
+  {id:35,img:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=520&fit=crop&q=82',name:'Nehru Collar Kurta',brand:'SAINDHAVI',cat:'ethnic',gender:'men',price:1299,old:2199,badge:'41% OFF',bt:'r',rating:4.6,reviews:291,sizes:['S','M','L','XL','XXL']},
+  {id:36,img:'https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=400&h=520&fit=crop&q=82',name:'Bandhani Print Saree',brand:'SAINDHAVI',cat:'ethnic',gender:'women',price:1499,old:2499,badge:'40% OFF',bt:'r',rating:4.7,reviews:687,sizes:['Free Size']},
+  {id:37,img:'https://images.unsplash.com/photo-1545291730-faff8ca1d4b0?w=400&h=520&fit=crop&q=82',name:'Crop Top & Skirt Set',brand:'SAINDHAVI',cat:'western',gender:'women',price:1099,old:1899,badge:'NEW',bt:'g',rating:4.5,reviews:287,sizes:['XS','S','M','L']},
+  {id:38,img:'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=400&h=520&fit=crop&q=82',name:'Tie-Dye Kurti',brand:'SAINDHAVI',cat:'women',gender:'women',price:699,old:1299,badge:'46% OFF',bt:'r',rating:4.3,reviews:198,sizes:['S','M','L','XL']},
+  {id:39,img:'https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?w=400&h=520&fit=crop&q=82',name:'Men Slim Fit Trousers',brand:'SAINDHAVI',cat:'western',gender:'men',price:1099,old:1999,badge:'45% OFF',bt:'r',rating:4.5,reviews:618,sizes:['28','30','32','34','36']},
+  {id:40,img:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&h=520&fit=crop&q=82',name:'Palazzo Kurta Set',brand:'SAINDHAVI',cat:'ethnic',gender:'women',price:1299,old:2199,badge:'41% OFF',bt:'r',rating:4.6,reviews:534,sizes:['S','M','L','XL','XXL']},
+  {id:41,img:'https://images.unsplash.com/photo-1519457431-44ccd64a579b?w=400&h=520&fit=crop&q=82',name:'Boys Denim Set',brand:'SAINDHAVI',cat:'kids',gender:'kids',price:699,old:1299,badge:'46% OFF',bt:'r',rating:4.5,reviews:178,sizes:['2Y','4Y','6Y','8Y','10Y']},
+  {id:42,img:'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=520&fit=crop&q=82',name:'Girls Summer Dress',brand:'SAINDHAVI',cat:'kids',gender:'kids',price:799,old:1399,badge:'NEW',bt:'g',rating:4.7,reviews:198,sizes:['2Y','4Y','6Y','8Y']},
+  {id:43,img:'https://images.unsplash.com/photo-1518485912782-c1c400f7a7d4?w=400&h=520&fit=crop&q=82',name:'Boys Formal Suit',brand:'SAINDHAVI',cat:'kids',gender:'kids',price:1499,old:2499,badge:'40% OFF',bt:'r',rating:4.8,reviews:143,sizes:['4Y','6Y','8Y','10Y','12Y']},
+  {id:44,img:'https://images.unsplash.com/photo-1573408301185-9519f94816b6?w=400&h=520&fit=crop&q=82',name:'Statement Necklace',brand:'SAINDHAVI',cat:'accessories',gender:'women',price:899,old:1599,badge:'44% OFF',bt:'r',rating:4.5,reviews:341,sizes:['Free Size']},
+  {id:45,img:'https://images.unsplash.com/photo-1590548784585-643d2b9f2925?w=400&h=520&fit=crop&q=82',name:'Men Leather Belt',brand:'SAINDHAVI',cat:'accessories',gender:'men',price:599,old:1099,badge:'45% OFF',bt:'r',rating:4.4,reviews:287,sizes:['28-32','32-36','36-40']},
+  {id:46,img:'https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=400&h=520&fit=crop&q=82',name:'Silk Blend Saree',brand:'SAINDHAVI',cat:'ethnic',gender:'women',price:3499,old:5999,badge:'42% OFF',bt:'r',rating:4.8,reviews:892,sizes:['Free Size']},
+  {id:47,img:'https://images.unsplash.com/photo-1545291730-faff8ca1d4b0?w=400&h=520&fit=crop&q=82',name:'Off-Shoulder Top',brand:'SAINDHAVI',cat:'western',gender:'women',price:699,old:1199,badge:'NEW',bt:'g',rating:4.4,reviews:311,sizes:['XS','S','M','L']},
+  {id:48,img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=520&fit=crop&q=82',name:'Indo-Western Sherwani',brand:'SAINDHAVI',cat:'western',gender:'men',price:4999,old:7999,badge:'NEW',bt:'o',rating:4.9,reviews:287,sizes:['S','M','L','XL','XXL']},
+  {id:49,img:'https://images.unsplash.com/photo-1495385794356-15371f348c31?w=400&h=520&fit=crop&q=82',name:'Printed Palazzo Pants',brand:'SAINDHAVI',cat:'women',gender:'women',price:849,old:1499,badge:'43% OFF',bt:'r',rating:4.5,reviews:423,sizes:['S','M','L','XL','XXL']},
+  {id:50,img:'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=400&h=520&fit=crop&q=82',name:'Kids Pyjama Set',brand:'SAINDHAVI',cat:'kids',gender:'kids',price:499,old:899,badge:'44% OFF',bt:'r',rating:4.5,reviews:287,sizes:['2Y','4Y','6Y','8Y','10Y']},
+];
+
+const dealList=[
+  {id:1,img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=360&h=185&fit=crop&q=80',name:'Kanjivaram Saree',price:'₹3,999',old:'₹5,999',sold:78},
+  {id:4,img:'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=360&h=185&fit=crop&q=80',name:'Party Lehenga',price:'₹4,500',old:'₹7,999',sold:65},
+  {id:15,img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=360&h=185&fit=crop&q=80',name:'Ethnic Kurta Set',price:'₹1,799',old:'₹2,999',sold:89},
+  {id:27,img:'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=360&h=185&fit=crop&q=80',name:'Gold Necklace Set',price:'₹1,299',old:'₹2,499',sold:55},
+];
+
+function renderProducts(cat){
+  const titles={all:'Trending Now 🔥',women:"Women's Collection 👗",men:"Men's Collection 👔",kids:"Kids Wear 🧒",ethnic:"Ethnic Wear 🥻",western:"Western Wear 👖",accessories:"Accessories 💍",sale:"🔥 Sale Items"};
+  document.getElementById('ptitle').textContent=titles[cat]||'Trending Now 🔥';
+  let list=cat==='all'?products:cat==='sale'?products.filter(p=>Math.round((p.old-p.price)/p.old*100)>=40):products.filter(p=>p.cat===cat||p.gender===cat);
+  const fb=document.getElementById('fbar');fb.innerHTML='';
+  if(cat==='all'){['All','Women','Men','Kids','Ethnic','Western','Accessories'].forEach(t=>{
+    const d=document.createElement('button');d.className='ftag'+(t==='All'?' on':'');d.textContent=t;
+    d.onclick=()=>{document.querySelectorAll('.ftag').forEach(x=>x.classList.remove('on'));d.classList.add('on');
+      const mp={All:'all',Women:'women',Men:'men',Kids:'kids',Ethnic:'ethnic',Western:'western',Accessories:'accessories'};renderProducts(mp[t]);};
+    fb.appendChild(d);
+  });}
+  document.getElementById('pgrid').innerHTML=list.map(p=>`
+    <div class="pc">
+      <div class="pimg"><img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&h=520&fit=crop'">
+        <span class="pbdg ${p.bt}">${p.badge}</span>
+        <button class="wbtn" onclick="toggleWish(${p.id},event)">${wishlist.includes(p.id)?'❤️':'🤍'}</button>
+      </div>
+      <div class="pbody">
+        <div class="pbrnd">${p.brand}</div><div class="pnm">${p.name}</div>
+        <div class="prat"><span class="sts">${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5-Math.floor(p.rating))}</span><span class="rc">(${p.reviews.toLocaleString()})</span></div>
+        <div class="prow"><span class="pnow">₹${p.price.toLocaleString()}</span><span class="pold">₹${p.old.toLocaleString()}</span><span class="psav">${Math.round((p.old-p.price)/p.old*100)}% off</span></div>
+        <div class="pbtns"><button class="bcart" id="bc${p.id}" onclick="addCart(${p.id})">🛒 Cart</button><button class="bbuy" onclick="openOrder(${p.id})">Buy Now</button></div>
+      </div>
+    </div>`).join('');
+}
+
+function renderDeals(){
+  document.getElementById('dgrid').innerHTML=dealList.map(d=>`
+    <div class="dc" onclick="openOrder(${d.id})">
+      <div class="di"><img src="${d.img}" alt="${d.name}" loading="lazy"></div>
+      <div class="db"><div class="dn">${d.name}</div><div><span class="dp">${d.price}</span><span class="do">${d.old}</span></div>
+      <div class="prg"><div class="prf" style="width:${d.sold}%"></div></div>
+      <div style="color:rgba(255,255,255,.4);font-size:9px">🔥 ${d.sold}% sold</div></div>
+    </div>`).join('');
+}
+
+function navCat(el,cat){
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('act'));
+  if(el)el.classList.add('act');
+  currentCat=cat;renderProducts(cat);
+  document.getElementById('psec').scrollIntoView({behavior:'smooth'});
+}
+
+function addCart(id){
+  const p=products.find(x=>x.id===id);
+  const ex=cart.find(x=>x.id===id);
+  if(ex)ex.qty++;else cart.push({...p,qty:1,selSz:p.sizes[0]});
+  const btn=document.getElementById('bc'+id);
+  if(btn){btn.textContent='✅ Added!';btn.classList.add('ok');setTimeout(()=>{btn.textContent='🛒 Cart';btn.classList.remove('ok');},1500);}
+  document.getElementById('cc').textContent=cart.reduce((s,x)=>s+x.qty,0);
+  showToast('🛒 '+p.name+' cart-ல சேர்க்கப்பட்டது!');
+}
+
+function toggleWish(id,e){
+  e.stopPropagation();
+  const i=wishlist.indexOf(id);
+  if(i===-1){wishlist.push(id);showToast('❤️ Wishlist-ல சேர்க்கப்பட்டது!');}
+  else{wishlist.splice(i,1);showToast('💔 Wishlist-லிருந்து நீக்கப்பட்டது');}
+  document.getElementById('wc').textContent=wishlist.length;
+  renderProducts(currentCat);
+}
+
+function openCart(){
+  document.getElementById('cartOv').classList.add('open');
+  const id2=document.getElementById('citems'),td=document.getElementById('ctot');
+  if(!cart.length){id2.innerHTML='<div class="empty">🛒<br><br>Cart காலியா இருக்கு!<br>Shopping தொடங்குங்கள்.</div>';td.innerHTML='';return;}
+  id2.innerHTML=cart.map(p=>`<div class="ci">
+    <div class="cth"><img src="${p.img}" alt="${p.name}"></div>
+    <div style="flex:1"><div class="cin">${p.name}</div><div style="font-size:9px;color:#999">Size: ${p.selSz||'Free'} | Qty: ${p.qty}</div><div class="cip">₹${(p.price*p.qty).toLocaleString()}</div></div>
+    <button onclick="rmCart(${p.id})" style="background:none;border:none;font-size:15px;cursor:pointer;color:var(--red)">🗑️</button>
+  </div>`).join('');
+  const sub=cart.reduce((s,x)=>s+x.price*x.qty,0),del=sub>=999?0:99,disc=Math.round(sub*.05);
+  td.innerHTML=`<div class="ctot">
+    <div class="crow"><span>Subtotal</span><span>₹${sub.toLocaleString()}</span></div>
+    <div class="crow"><span>Discount 5%</span><span style="color:var(--grn)">−₹${disc}</span></div>
+    <div class="crow"><span>Delivery</span><span>${del?'₹'+del:'<span style="color:var(--grn)">FREE</span>'}</span></div>
+    <div class="crow" style="font-size:15px;font-weight:700;border-top:1px solid #eee;padding-top:8px;margin-top:4px"><span>Total</span><span>₹${(sub-disc+del).toLocaleString()}</span></div>
+  </div>
+  <button class="chkbtn" onclick="closeOv('cartOv');openOrderMulti(cart)">📦 Place Order →</button>
+  <div class="div2">OR</div>
+  <button class="wabtn2" onclick="waCartOrder()">💬 Order via WhatsApp</button>`;
+}
+
+function rmCart(id){cart=cart.filter(x=>x.id!==id);document.getElementById('cc').textContent=cart.reduce((s,x)=>s+x.qty,0);openCart();}
+
+function waCartOrder(){
+  const lines=cart.map(p=>`• ${p.name} x${p.qty} — ₹${(p.price*p.qty).toLocaleString()}`).join('\n');
+  const total=cart.reduce((s,x)=>s+x.price*x.qty,0);
+  openWA(`Hello Saindhavi Fashion! 🛍️\nName: ${currentUser.fname} ${currentUser.lname}\n\n*Order:*\n${lines}\n\nTotal: ₹${total.toLocaleString()}\nPhone: ${currentUser.phone}`);
+}
+
+function openOrder(id){
+  orderP=products.find(p=>p.id===id);orderQ=1;orderSz=orderP.sizes[0];orderPay='cod';
+  document.getElementById('ocontent').innerHTML=orderFormHTML(orderP);
+  document.getElementById('orderOv').classList.add('open');
+}
+
+function openOrderMulti(items){
+  document.getElementById('ocontent').innerHTML=multiOrderHTML(items);
+  document.getElementById('orderOv').classList.add('open');
+}
+
+function orderFormHTML(p){
+  const disc=Math.round((p.old-p.price)/p.old*100);
+  return `<div class="oprev"><div class="oth"><img src="${p.img}" alt="${p.name}"></div>
+    <div><div class="opnm">${p.name}</div><div style="font-size:9px;color:#888;margin-bottom:4px">${p.brand} | ${disc}% OFF</div>
+    <div class="oppr">₹${p.price.toLocaleString()} <span style="font-size:10px;color:#bbb;text-decoration:line-through;font-weight:400">₹${p.old.toLocaleString()}</span></div></div>
+  </div>
+  <div style="margin-bottom:12px"><label style="font-size:10px;font-weight:700;display:block;margin-bottom:5px;text-transform:uppercase">SIZE:</label>
+  <div class="szbx">${p.sizes.map(s=>`<button class="szb${s===orderSz?' on':''}" onclick="selSz('${s}',this)">${s}</button>`).join('')}</div></div>
+  <div style="margin-bottom:12px"><label style="font-size:10px;font-weight:700;display:block;margin-bottom:5px;text-transform:uppercase">QUANTITY:</label>
+  <div class="qrow"><button class="qb" onclick="chgQ(-1)">−</button><div class="qn" id="qn">1</div><button class="qb" onclick="chgQ(1)">+</button>
+  <span style="font-size:11px;color:#888;margin-left:8px">Total: <strong id="qtot">₹${p.price.toLocaleString()}</strong></span></div></div>
+  <div style="background:#F0FDF4;border-radius:8px;padding:10px 13px;margin-bottom:12px;font-size:11px;color:#166534">
+    ✅ Logged in as: <strong>${currentUser.fname} ${currentUser.lname}</strong> | ${currentUser.phone}
+  </div>
+  <div class="frow"><div class="fgrp"><label>Delivery Address *</label><input id="oad" placeholder="Door No, Street, Area"></div>
+  <div class="fgrp"><label>City *</label><input id="oci" placeholder="${currentUser.city||'City'}" value="${currentUser.city||''}"></div></div>
+  <div class="frow"><div class="fgrp"><label>Pincode *</label><input id="opi" placeholder="600001"></div>
+  <div class="fgrp"><label>Alt. Phone</label><input id="oph2" placeholder="${currentUser.phone}" value="${currentUser.phone}"></div></div>
+  <div class="fgrp"><label>Payment Method *</label>
+  <div class="pmths">
+    <div class="pmth on" id="pm-cod" onclick="selPay('cod')"><div class="pmic">💵</div>Cash on Delivery</div>
+    <div class="pmth" id="pm-upi" onclick="selPay('upi')"><div class="pmic">📱</div>UPI / GPay</div>
+    <div class="pmth" id="pm-card" onclick="selPay('card')"><div class="pmic">💳</div>Card</div>
+  </div></div>
+  <button class="obtn" onclick="placeOrder()">🎉 Place Order — ₹<span id="fa">${p.price.toLocaleString()}</span></button>
+  <div class="div2">OR</div>
+  <button class="waobtn" onclick="waOrder()">💬 WhatsApp Order</button>`;
+}
+
+function multiOrderHTML(items){
+  const total=items.reduce((s,x)=>s+x.price*x.qty,0);
+  return `<div style="background:#FDF8EE;border-radius:9px;padding:12px;margin-bottom:14px;border:1px solid rgba(201,168,76,.3)">
+    <div style="font-weight:700;font-size:12px;margin-bottom:8px">🛒 ${items.length} items</div>
+    ${items.map(p=>`<div style="display:flex;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid rgba(201,168,76,.1)">
+    <img src="${p.img}" style="width:40px;height:40px;border-radius:5px;object-fit:cover">
+    <div style="flex:1"><div style="font-size:11px;font-weight:600">${p.name}</div>
+    <div style="font-size:9px;color:#888">Qty:${p.qty} | ₹${(p.price*p.qty).toLocaleString()}</div></div></div>`).join('')}
+    <div style="text-align:right;margin-top:8px;font-size:14px;font-weight:700;color:var(--gd)">Total: ₹${total.toLocaleString()}</div>
+  </div>
+  <div style="background:#F0FDF4;border-radius:8px;padding:10px 13px;margin-bottom:12px;font-size:11px;color:#166534">
+    ✅ Logged in as: <strong>${currentUser.fname} ${currentUser.lname}</strong>
+  </div>
+  <div class="frow"><div class="fgrp"><label>Address *</label><input id="oad" placeholder="Door No, Street, Area"></div>
+  <div class="fgrp"><label>City *</label><input id="oci" value="${currentUser.city||''}"></div></div>
+  <div class="fgrp"><label>Pincode *</label><input id="opi" placeholder="600001"></div>
+  <div class="fgrp"><label>Payment *</label>
+  <div class="pmths">
+    <div class="pmth on" id="pm-cod" onclick="selPay('cod')"><div class="pmic">💵</div>COD</div>
+    <div class="pmth" id="pm-upi" onclick="selPay('upi')"><div class="pmic">📱</div>UPI</div>
+    <div class="pmth" id="pm-card" onclick="selPay('card')"><div class="pmic">💳</div>Card</div>
+  </div></div>
+  <button class="obtn" onclick="placeCartOrder(${total})">🎉 Confirm Order — ₹${total.toLocaleString()}</button>
+  <div class="div2">OR</div>
+  <button class="waobtn" onclick="waCartOrder()">💬 WhatsApp</button>`;
+}
+
+function selSz(s,btn){orderSz=s;document.querySelectorAll('.szb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function chgQ(d){
+  orderQ=Math.max(1,Math.min(10,orderQ+d));
+  document.getElementById('qn').textContent=orderQ;
+  if(orderP){const t=(orderP.price*orderQ).toLocaleString();document.getElementById('qtot').textContent='₹'+t;document.getElementById('fa').textContent=t;}
+}
+function selPay(m){orderPay=m;['cod','upi','card'].forEach(x=>{const el=document.getElementById('pm-'+x);if(el)el.classList.toggle('on',x===m);});}
+
+function getAddr(){
+  const ad=document.getElementById('oad')?.value.trim();
+  const ci=document.getElementById('oci')?.value.trim();
+  const pi=document.getElementById('opi')?.value.trim();
+  if(!ad||!ci||!pi){showToast('⚠️ Address, City, Pincode தேவை!');return null;}
+  return{ad,ci,pi};
+}
+
+function saveOrderToStore(orderData){
+  ORDERS.unshift(orderData);saveOrders();
+  const c=CUSTOMERS.find(x=>x.id===currentUser.id);
+  if(c){c.orders=(c.orders||0)+1;saveCustomers();}
+}
+
+function placeOrder(){
+  const v=getAddr();if(!v)return;
+  const oid='SF'+Date.now().toString().slice(-6);
+  const total=orderP.price*orderQ;
+  const ph=document.getElementById('oph2')?.value.trim()||currentUser.phone;
+  const orderData={id:oid,custId:currentUser.id,custName:currentUser.fname+' '+currentUser.lname,custEmail:currentUser.email,custPhone:ph,product:orderP.name,productImg:orderP.img+'&w=80&h=80',size:orderSz,qty:orderQ,amount:total,payment:orderPay,address:v.ad,city:v.ci,pincode:v.pi,status:'pending',date:new Date().toISOString()};
+  saveOrderToStore(orderData);
+  document.getElementById('ocontent').innerHTML=successHTML(oid,orderP.name,orderSz,orderQ,total,v,orderPay);
+  cart=[];document.getElementById('cc').textContent='0';
+}
+
+function placeCartOrder(total){
+  const v=getAddr();if(!v)return;
+  const oid='SF'+Date.now().toString().slice(-6);
+  const prods=cart.map(p=>p.name).join(', ');
+  const orderData={id:oid,custId:currentUser.id,custName:currentUser.fname+' '+currentUser.lname,custEmail:currentUser.email,custPhone:currentUser.phone,product:prods.length>40?prods.substring(0,40)+'...':prods,productImg:cart[0]?.img+'&w=80&h=80',size:'Various',qty:cart.reduce((s,x)=>s+x.qty,0),amount:total,payment:orderPay,address:v.ad,city:v.ci,pincode:v.pi,status:'pending',date:new Date().toISOString()};
+  saveOrderToStore(orderData);
+  document.getElementById('ocontent').innerHTML=successHTML(oid,'Multiple Items','Various',orderData.qty,total,v,orderPay);
+  cart=[];document.getElementById('cc').textContent='0';
+}
+
+function successHTML(oid,pname,sz,qty,total,v,pay){
+  return `<div class="succ"><div class="tk">🎉</div><h3>Order Placed!</h3>
+  <p><strong style="font-size:14px;color:var(--gd)">Order ID: #${oid}</strong><br><br>
+  நன்றி ${currentUser.fname}! உங்கள் order confirm.<br><br>
+  📦 ${pname}<br>Size: ${sz} | Qty: ${qty}<br>
+  💰 ₹${total.toLocaleString()} (${pay.toUpperCase()})<br><br>
+  📍 ${v.ad}, ${v.ci} - ${v.pi}<br><br>
+  3–5 working days-ல delivery ஆகும்!<br><br>
+  <button style="background:var(--wa);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Poppins,sans-serif;margin-top:4px" onclick="openWA('Order Confirmed! ID:#${oid}\\nProduct: ${pname}\\nTotal: ₹${total.toLocaleString()}\\nDelivery: ${v.ci}-${v.pi}')">💬 Confirm on WhatsApp</button>
+  </p></div>`;
+}
+
+function waOrder(){if(!orderP)return;openWA(`Hello Saindhavi Fashion! 🛍️\nName: ${currentUser.fname} ${currentUser.lname}\nPhone: ${currentUser.phone}\n\nOrder:\n📦 ${orderP.name}\nSize: ${orderSz} | Qty: ${orderQ}\n💰 ₹${(orderP.price*orderQ).toLocaleString()}\n\nPlease confirm!`);}
+
+function showMyOrders(){
+  document.getElementById('myOrdersOv').classList.add('open');
+  const myO=ORDERS.filter(o=>o.custId===currentUser.id);
+  const div=document.getElementById('myOrdersContent');
+  if(!myO.length){div.innerHTML='<div class="empty">📭<br><br>இன்னும் order பண்ணவில்லை!<br>Shopping தொடங்குங்கள்.</div>';return;}
+  div.innerHTML=myO.map(o=>`
+    <div style="border:1px solid #eee;border-radius:10px;padding:13px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+        <span style="font-weight:700;font-size:12px;color:var(--gd)">#${o.id}</span>
+        <span class="status-badge ${o.status}">${o.status}</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <img src="${o.productImg}" style="width:50px;height:50px;border-radius:7px;object-fit:cover" onerror="this.src='https://via.placeholder.com/50'">
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:600">${o.product}</div>
+          <div style="font-size:10px;color:#aaa">Size: ${o.size} | Qty: ${o.qty} | ${o.payment.toUpperCase()}</div>
+          <div style="font-size:10px;color:#888">📍 ${o.city} - ${o.pincode}</div>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:var(--gd)">₹${o.amount.toLocaleString()}</div>
+      </div>
+      <div style="margin-top:9px;padding-top:8px;border-top:1px solid #f5f5f5;display:flex;gap:8px">
+        <button style="flex:1;background:#EFF6FF;color:#2563EB;border:none;padding:7px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer" onclick="openWA('Hi! Track my order #${o.id} for ${o.product}')">📦 Track Order</button>
+        <button style="flex:1;background:#F0FDF4;color:#16A34A;border:none;padding:7px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer" onclick="openWA('I want to return order #${o.id} for ${o.product}')">↩️ Return</button>
+      </div>
+    </div>`).join('');
+}
+
+function showUserMenu(){
+  document.getElementById('userMenuOv').classList.add('open');
+  document.getElementById('userMenuContent').innerHTML=`
+    <div style="text-align:center;padding:16px 0 20px">
+      <div class="rav" style="width:56px;height:56px;font-size:20px;margin:0 auto 10px">${currentUser.fname.charAt(0)}</div>
+      <div style="font-weight:700;font-size:16px">${currentUser.fname} ${currentUser.lname}</div>
+      <div style="font-size:11px;color:#888;margin-top:2px">${currentUser.email}</div>
+      <div style="font-size:11px;color:#888">${currentUser.phone} | 📍 ${currentUser.city}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button style="width:100%;background:#FDF8EE;color:var(--blk);border:1px solid rgba(201,168,76,.3);padding:12px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:Poppins,sans-serif" onclick="closeOv('userMenuOv');showMyOrders()">📦 My Orders (${ORDERS.filter(o=>o.custId===currentUser.id).length})</button>
+      <button style="width:100%;background:#FDF8EE;color:var(--blk);border:1px solid rgba(201,168,76,.3);padding:12px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:Poppins,sans-serif" onclick="closeOv('userMenuOv');showToast('❤️ '+wishlist.length+' items in wishlist')">❤️ Wishlist (${wishlist.length})</button>
+      <button style="width:100%;background:#FEF2F2;color:#EF4444;border:1px solid #FECACA;padding:12px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:Poppins,sans-serif" onclick="shopLogout()">🚪 Logout</button>
+    </div>`;
+}
+
+function doSearch(){
+  const q=document.getElementById('si').value.toLowerCase().trim();if(!q)return;
+  const res=products.filter(p=>p.name.toLowerCase().includes(q)||p.cat.includes(q)||p.gender.includes(q));
+  document.getElementById('ptitle').textContent=`"${q}" — ${res.length} results`;
+  document.getElementById('fbar').innerHTML='';
+  document.getElementById('pgrid').innerHTML=res.length?res.map(p=>`
+    <div class="pc"><div class="pimg"><img src="${p.img}" alt="${p.name}" loading="lazy">
+      <span class="pbdg ${p.bt}">${p.badge}</span>
+      <button class="wbtn" onclick="toggleWish(${p.id},event)">${wishlist.includes(p.id)?'❤️':'🤍'}</button>
+    </div><div class="pbody">
+      <div class="pbrnd">${p.brand}</div><div class="pnm">${p.name}</div>
+      <div class="prat"><span class="sts">${'★'.repeat(Math.floor(p.rating))}</span><span class="rc">(${p.reviews.toLocaleString()})</span></div>
+      <div class="prow"><span class="pnow">₹${p.price.toLocaleString()}</span><span class="pold">₹${p.old.toLocaleString()}</span><span class="psav">${Math.round((p.old-p.price)/p.old*100)}% off</span></div>
+      <div class="pbtns"><button class="bcart" id="bc${p.id}" onclick="addCart(${p.id})">🛒 Cart</button><button class="bbuy" onclick="openOrder(${p.id})">Buy Now</button></div>
+    </div></div>`).join('')
+    :'<div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;font-size:12px">😔 No results found.<br>Try: saree, kurti, shirt, lehenga, jeans</div>';
+  document.getElementById('psec').scrollIntoView({behavior:'smooth'});
+}
+
+function closeOv(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+let th2=5,tm2=42,ts2=18;
+setInterval(()=>{ts2--;if(ts2<0){ts2=59;tm2--;}if(tm2<0){tm2=59;th2--;}if(th2<0){th2=5;tm2=59;ts2=59;}
+  const te=document.getElementById('th');if(te){te.textContent=String(th2).padStart(2,'0');document.getElementById('tm').textContent=String(tm2).padStart(2,'0');document.getElementById('ts').textContent=String(ts2).padStart(2,'0');}},1000);
+</script>
+</body>
+</html>
